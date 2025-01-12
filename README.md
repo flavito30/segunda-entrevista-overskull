@@ -1,14 +1,14 @@
-# Task Management API
+# Prodcuts Management API
 
 API RESTful construida con **FastAPI** para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre una colección de "productos". Incluye validaciones robustas, documentación automática y una estructura modular escalable.
 
 ## Características
 - CRUD completo para `productos`:
-  - **Crear un tarea*: `POST /productos/`
+  - **Crear un producto*: `POST /productos/`
   - **Leer todos los items**: `GET /productos/`
   - **Leer un item específico**: `GET /productos/{item_id}`
-  - **Actualizar un tarea*: `PUT /productos/{item_id}`
-  - **Eliminar un tarea*: `DELETE /productos/{item_id}`
+  - **Actualizar un producto*: `PUT /productos/{item_id}`
+  - **Eliminar un producto*: `DELETE /productos/{item_id}`
 - Validación de datos con **Pydantic**.
 - Documentación interactiva generada automáticamente con:
   - **Swagger UI**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)

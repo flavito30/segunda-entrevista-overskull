@@ -5,6 +5,8 @@ from app import schemas, services
 from app.database import get_db
 from fastapi import Depends
 from fastapi import HTTPException
+from typing import Optional
+from app import models
 
 router = APIRouter(
     prefix="/productos",
@@ -16,10 +18,28 @@ router = APIRouter(
 
 
 @router.get("/", response_model=list[schemas.Product])
-def read_products(page: int = 1, size: int = 3, db: Session = Depends(get_db)):
+def read_products(
+    page: int = 1,
+    size: int = 3,
+    categoria: Optional[str] = None,
+    min_price: Optional[float] = None,
+    max_price: Optional[float] = None,
+    db: Session = Depends(get_db)
+):
     skip = (page - 1) * size
-    limit = size
-    return services.get_products(db, skip=skip, limit=limit)
+    query = db.query(models.Product)
+
+    # Aplicar filtros opcionales
+    if categoria:
+        query = query.filter(models.Product.categoria == categoria)
+    if min_price is not None:
+        query = query.filter(models.Product.precio >= min_price)
+    if max_price is not None:
+        query = query.filter(models.Product.precio <= max_price)
+
+    # Paginación
+    productos = query.offset(skip).limit(size).all()
+    return productos
 
 @router.get("/{product_id}", response_model=schemas.Product)
 def read_product(product_id: int, db: Session = Depends(get_db)):
